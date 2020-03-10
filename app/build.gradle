@@ -17,10 +17,11 @@ android {
 
     defaultConfig {
         applicationId "nl.tudelft.trustchain"
-        minSdkVersion 24
+        minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -81,6 +82,8 @@ dependencies {
     implementation 'com.github.tony19:logback-android:2.0.0'
 
     implementation 'com.mattskala:itemadapter:0.3'
+
+    implementation 'com.android.support:multidex:1.0.3'
 
     // Testing
     testImplementation 'junit:junit:4.12'

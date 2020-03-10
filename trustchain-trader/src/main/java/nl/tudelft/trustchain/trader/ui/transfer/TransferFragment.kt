@@ -18,7 +18,7 @@ import nl.tudelft.ipv8.util.hexToBytes
 import nl.tudelft.ipv8.util.toHex
 
 
-class TransferFragment : BaseFragment() {
+class TransferFragment : BaseFragment(R.layout.fragment_transfer) {
     private var isSending = true
 
     override fun onCreateView(

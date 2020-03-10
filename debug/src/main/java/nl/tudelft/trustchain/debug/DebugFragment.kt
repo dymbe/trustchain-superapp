@@ -2,6 +2,7 @@ package nl.tudelft.trustchain.debug
 
 import android.graphics.Color
 import android.graphics.Typeface
+import android.os.Build
 import android.os.Bundle
 import android.text.style.ForegroundColorSpan
 import android.view.View
@@ -13,8 +14,8 @@ import androidx.core.text.inSpans
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.*
 import nl.tudelft.ipv8.Community
-import nl.tudelft.trustchain.common.ui.BaseFragment
 import nl.tudelft.ipv8.util.toHex
+import nl.tudelft.trustchain.common.ui.BaseFragment
 import nl.tudelft.trustchain.common.util.viewBinding
 import nl.tudelft.trustchain.debug.databinding.FragmentDebugBinding
 import java.util.*
@@ -51,7 +52,11 @@ class DebugFragment : BaseFragment(R.layout.fragment_debug) {
                 append(overlay.javaClass.simpleName)
                 append(" (")
                 val textColorResId = if (overlay.getPeers().isNotEmpty()) R.color.green else R.color.red
-                val textColor = resources.getColor(textColorResId, null)
+                val textColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    resources.getColor(textColorResId, null)
+                } else {
+                    resources.getColor(textColorResId)
+                }
                 inSpans(ForegroundColorSpan(textColor)) {
                     val peers = overlay.getPeers()
                     val peersCountStr = resources.getQuantityString(
@@ -69,7 +74,11 @@ class DebugFragment : BaseFragment(R.layout.fragment_debug) {
             }
             val totalPeersCount = ipv8.network.verifiedPeers.size
             val textColorResId = if (totalPeersCount > 0) R.color.green else R.color.red
-            val textColor = resources.getColor(textColorResId, null)
+            val textColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                resources.getColor(textColorResId, null)
+            } else {
+                resources.getColor(textColorResId)
+            }
             inSpans(ForegroundColorSpan(textColor)) {
                 append(resources.getQuantityString(R.plurals.x_peers, totalPeersCount, totalPeersCount))
             }
@@ -107,7 +116,11 @@ class DebugFragment : BaseFragment(R.layout.fragment_debug) {
             view.text = address.toString()
             val resId = if (isAlive) R.drawable.indicator_online else
                 R.drawable.indicator_offline
-            val drawable = resources.getDrawable(resId, null)
+            val drawable = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                resources.getDrawable(resId, null)
+            } else {
+                resources.getDrawable(resId)
+            }
             view.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null)
             view.compoundDrawablePadding = resources.getDimensionPixelSize(R.dimen.indicator_padding)
             view.typeface = Typeface.MONOSPACE
